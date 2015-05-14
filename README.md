@@ -1,6 +1,5 @@
 # FuzzyCognitiveMaps.js
 
-About Fuzzy Cognitive Maps :- 
   A cognitive map may be defined as "an overall mental image or representation of the space and layout of a setting", which means
 that the act of cognitive mapping is "the mental structuring process leading to the creation of a cognitive map".
 
@@ -11,3 +10,5 @@ Whereas fuzzy logic tells us that relationships can have intermediate values as 
 
   This javascript library will enable users to draw, save and export cognitive maps in browser based applications.The library
 can be easily integrated in any web applications as it consumes and produces structured data in json format.
+
+The library is available under MIT License.
