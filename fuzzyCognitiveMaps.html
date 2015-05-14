@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cognitive Maps</title>
+<link rel="stylesheet" href="css/fuzzyCognitiveMaps.css" type="text/css" />
+
+<!-- Included a few js libraries -->
+<script type="text/javascript" src="js/lib/jquery-1.11.2.min.js"></script>
+<!-- jquerysvg library by Keith Wood added-->
+<script type="text/javascript" src="js/lib/jquery.svg.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/fuzzyCognitiveMaps.js"></script>
+<script type="text/javascript" src="js/canvas.js"></script>
+<script type="text/javascript" src="js/factor.js"></script>
+<script type="text/javascript" src="js/linkage.js"></script>
+<script type="text/javascript" src="js/utilities.js"></script>
+</head>
+<body>
+	<!-- An empty div which acts as a container for the entire map. -->
+	<div id="canvas-space" class="canvas-space"></div>
+	<!-- Maps would be populated basis this data in json format. -->
+	<textarea id="maps-json" class="hidden">
+{
+"editable":true,
+"factors":[
+{"id":1,"name":"Poverty due to population","x":0,"y":0,"value":1,"description":"factor 1 description"},
+{"id":2,"name":"factor2","x":100,"y":40,"value":1,"description":"factor 2 description"},
+{"id":3,"name":"factor3","x":-40,"y":-200,"value":1,"description":"factor 3 description"}
+],
+"linkages":[
+{"id":1,"from":1,"to":2,"type":1,"weight":0.5},
+{"id":2,"from":1,"to":3,"type":-1,"weight":0.6}
+]
+}
+</textarea>
+	<!-- Templates from which components would be created dynamically. -->
+	<div id="maps-templates">
+		<div id="factor-editor" class="__template__"><!--
+ 	<div id="factor-edior-template" class="factor-editor-template-style">
+		<table>
+			<tr>
+				<td><label>Code : </label></td>
+				<td><input id="factor-editor-code"/></td>
+				<td><label>Name : </label></td>
+				<td><input id="factor-editor-name"/></td>
+			</tr>
+			<tr>
+				<td><label>Value : </label></td>
+				<td><input id="factor-editor-value"/></td>
+				<td><label>Description : </label></td>
+				<td><textArea id="factor-editor-description"  /></td>
+			</tr>
+			<tr>
+			</tr>
+			</table>
+			<div class="button-div">
+					<input type="button" class="button"  id="factor-editor-delete-button" value="Delete">
+					<input type="button" class="button"  id="factor-editor-save-button" value="Save">
+					<input type="button" class="button"  id="factor-editor-cancel-button" value="Cancel">
+				</div>
+		
+	</div>  -->
+		</div>
+
+
+		<div id="linkage-editor" class="__template__"><!--
+ 	<div id="linkage-editor-template" class="linkage-editor-template-style">
+		<table>
+			<tr>
+				<td><label>From : </label></td>
+				<td><span id="linkage-editor-from-factor" class="standard-width"/></td>
+				<td><label>To : </label></td>
+				<td><span id="linkage-editor-to-factor" class="standard-width"/></td>
+			</tr>
+			<tr>
+				<td><label>Type : </label></td>
+				<td><select id="linkage-editor-type">
+					<option value="1">Positive</option>
+					<option value="0">Neutral</option>
+					<option value="-1">Negative</option>
+				</select></td>
+				<td><label>Weight : </label></td>
+				<td><input id="linkage-editor-weight"  /></td>
+			</tr>
+			<tr>
+			</tr>
+			</table>
+			<div class="button-div">
+					<input type="button" class="button"  id="linkage-editor-delete-button" value="Delete">
+					<input type="button" class="button"  id="linkage-editor-save-button" value="Save">
+					<input type="button" class="button"  id="linkage-editor-cancel-button" value="Cancel">
+				</div>
+		
+	</div>  -->
+		</div>
+
+		<div id="buttons-bar" class="__template__"><!--
+ 	<div id="buttons-bar-template" class="buttons-bar-template-style">
+		<input type="button" class="button"  id="button-bar-info-button" value="Info">
+		<span class="seprator">|</span> 
+		<input type="button" class="button"  id="button-bar-reload-button" value="Reload">
+		<input type="button" class="button"  id="button-bar-reset-button" value="Reset">
+		<input type="button" class="button"  id="button-bar-save-button" value="Save"> 
+		<input type="button" class="button"  id="button-bar-export-button" value="Export"> 
+	</div>  -->
+		</div>
+
+
+	</div>
+</body>
+<script type="text/javascript">
+	var maps;  // global javascript object of the entire map
+var canvasSpace;  // global dom reference object of the entire map
+
+// Error and confirmation messages
+var messages = {
+		"ERROR_MESSAGE_LAST_FACTOR_DELETION" : "Can not delete the last factor!",
+		"ERROR_MESSAGE_FACTOR_OVERLAPPING_POSITION" : "Factors can not have overlapping positions!",
+		"ERROR_MESSAGE_ERRORNOUS_LOAD" : "Maps could not be loaded successfully!",
+		"ERROR_MESSAGE_ERRORNOUS_SAVE" : "Maps could not be saved successfully!",
+		"ERROR_MESSAGE_FACTOR_NO_NAME" : "Factor name can not be left blank!",
+		"ERROR_MESSAGE_FACTOR_VALUE_INVALID" : "Value must be a numeric field!",
+		"ERROR_MESSAGE_LINKAGE_WEIGHT_INVALID" : "Weight must be a numeric field!",
+		"CONFIRMATION_MESSAGE_NEW_LINKAGE_CREATED" : "Successfully created a new linkage!",
+		"CONFIRMATION_MESSAGE_SAVE_SUCCESSFUL" : "Successfully saved maps in temporary storage!",
+		"INFO_MESSAGE" : "Double click on canvas to create new factors.\nDouble click on factors or linkages to edit them.\nDrag factors to reposition them.\nBump two factors to create a new linkage.\nExport it to save it as an image.\nClear out the canvas with Reset.\n\n\nHave fun playing around!",
+		"ERROR_MESSAGE_DUPLICATE_LINKAGE" : "A linkage already exists between these two factors!"
+	};
+
+	// The below function calls all necessary functions on page load
+	$(function() {
+		maps = new Canvas();
+		canvasSpace = $('#canvas-space');
+		canvasSpace.css({
+			width : ($(window).width() - 30),
+			height : ($(window).height() - 50)
+		}); //canvas has approaximately same dimensions as that of window
+
+		loadComponents();
+
+		maps.initilize();
+		var mapsJson = $('#maps-json').val();
+		loadMaps(mapsJson);
+
+		// These action buttons will not be visible when in non editable mode.
+		if (maps.editable === false) {
+			$('body').find("#button-bar-info-button").remove();
+			$('body').find("#button-bar-reload-button").remove();
+			$('body').find("#button-bar-reset-button").remove();
+			$('body').find("#button-bar-save-button").remove();
+			$('body').find(".seprator").remove();
+
+		}
+
+		// 	things to do when window get resized
+		$(window).resize(function() {
+			// Commented below to retain window height and width even after resize. This way elements dont go beyond visible space.
+			// canvasSpace.css({width: ($(window).width()-30), height: ($(window).height() - 50)});
+			// maps.resize();
+		});
+
+	});
+</script>
+</html>
