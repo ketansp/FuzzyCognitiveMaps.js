@@ -9,6 +9,13 @@ input{
 	width:170px;
 	height:20px;
 	margin:2px 2px 2px 2px;
+	font-family:arial !important;
+	font-size:13px !important;
+}
+
+option select{
+	font-family:arial !important;
+	font-size:13px !important;
 }
 
 textarea{
@@ -18,15 +25,19 @@ textarea{
 	max-width:170px;
 	max-height:40px;
 	font-family:arial !important;
+	font-size:13px !important;
 }
 
 body{
 	font-family:arial !important;
-	font-size:14px !important;
+	font-size:13px !important;
 }
 
 .button{
 	width:60px;
+	height:initial;
+	font-family:arial !important;
+	font-size:13px !important;
 	
 }
 

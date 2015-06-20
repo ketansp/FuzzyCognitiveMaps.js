@@ -201,7 +201,7 @@ Canvas.prototype.addFactor = function(factor) {
 	});
 
 	// Defining drag functions on circle to reposition it or to create a new linkage 
-	svgCircle.draggable().bind('mousedown', function(e) {
+	svgCircle.draggable().bind('dragstart', function(e) {
 		e.stopPropagation(); //stops the mousedown calls of deeper layer elements
 
 		// Wont be able to move if in non editable mode
@@ -239,8 +239,7 @@ Canvas.prototype.addFactor = function(factor) {
 			}
 		}
 
-	}).bind(
-			'mouseup',
+	}).bind('dragstop',
 			function(e) {
 				e.stopPropagation(); // Stops the drag calls of deeper layer elements
 				// Wont be able to move if in non editable mode
