@@ -43,7 +43,7 @@ function loadMaps(mapsJson) {
 		}
 		// a new factor is added if there are no factors present
 		if (maps.factors.length == 0) {
-			var newFactor = new Factor(('temp' + new Date().getTime()), 'Factor ' + 1, 0, 0, 40, maps);
+			var newFactor = new Factor(('temp' + new Date().getTime()), 'Factor ' + 1, 0, 0, maps);
 			maps.addFactor(newFactor);
 		}
 	} catch (ex) {
@@ -173,7 +173,7 @@ function resetMaps() {
 
 	maps = new Canvas();
 	maps.initilize();
-	var newFactor = new Factor(('temp' + new Date().getTime()), 'Factor 1', 0, 0, 40, maps);
+	var newFactor = new Factor(('temp' + new Date().getTime()), 'Factor 1', 0, 0, maps);
 	maps.addFactor(newFactor);
 
 }

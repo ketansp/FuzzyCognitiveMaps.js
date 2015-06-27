@@ -21,18 +21,7 @@
 	<div id="canvas-space" class="canvas-space"></div>
 	<!-- Maps would be populated basis this data in json format. -->
 	<textarea id="maps-json" class="hidden">
-{
-"editable":true,
-"factors":[
-{"id":1,"name":"Poverty due to population","x":0,"y":0,"value":1,"description":"factor 1 description"},
-{"id":2,"name":"factor2","x":100,"y":40,"value":1,"description":"factor 2 description"},
-{"id":3,"name":"factor3","x":-40,"y":-200,"value":1,"description":"factor 3 description"}
-],
-"linkages":[
-{"id":1,"from":1,"to":2,"type":1,"weight":0.5},
-{"id":2,"from":1,"to":3,"type":-1,"weight":0.6}
-]
-}
+{"factors":[{"id":"temp1435417405562","name":"Delay in delivery","x":-6,"y":77.5,"radius":40,"value":"","code":"","description":""},{"id":"temp_1435417420515","name":"Changing requirements","x":246,"y":-67.5,"radius":40,"value":"","code":"","description":""},{"id":"temp_1435417433147","name":"Code quality","x":-75,"y":-231.5,"radius":40,"value":"","code":"","description":"Quality of code can be co related to number of defects found in testing cycles."},{"id":"temp_1435417506354","name":"Technical expertise","x":-309,"y":117.5,"radius":40,"value":"","code":"","description":"It depends a lot upon team's technical expertise as well."},{"id":"temp_1435417671941","name":"Good infrastructure","x":-279,"y":-226.5,"radius":40,"value":"","code":"","description":"The server capacity has no such impact on delivery schedules."},{"id":"temp_1435417714143","name":"Misunderstanding of requirements","x":99,"y":-230.5,"radius":40,"value":"","code":"","description":""},{"id":"temp_1435417802875","name":"Weather","x":-365,"y":-106.5,"radius":40,"value":"","code":"","description":""},{"id":"temp_1435418181472","name":"Documentation","x":353,"y":-215.5,"radius":40,"code":"","value":"","description":"Documentation can be a single point of truth."}],"linkages":[{"id":"temp_1435417844149","from":"temp_1435417433147","to":"temp1435417405562","type":-1,"weight":"0"},{"id":"temp_1435417847262","from":"temp_1435417714143","to":"temp1435417405562","type":1,"weight":0},{"id":"temp_1435417849313","from":"temp_1435417506354","to":"temp_1435417433147","type":1,"weight":0},{"id":"temp_1435417851887","from":"temp_1435417802875","to":"temp1435417405562","type":0,"weight":"0"},{"id":"temp_1435417854399","from":"temp_1435417420515","to":"temp1435417405562","type":1,"weight":0},{"id":"temp_1435417858056","from":"temp_1435417671941","to":"temp1435417405562","type":0,"weight":"0"},{"id":"temp_1435417880679","from":"temp_1435417506354","to":"temp1435417405562","type":-1,"weight":"0"},{"id":"temp_1435418128277","from":"temp_1435417420515","to":"temp_1435417714143","type":1,"weight":0},{"id":"temp_1435418222776","from":"temp_1435418181472","to":"temp_1435417714143","type":"-1","weight":"0"}],"deletedFactors":[],"deletedLinkages":[],"editable":true}
 </textarea>
 	<!-- Templates from which components would be created dynamically. -->
 	<div id="maps-templates">
